@@ -15,6 +15,21 @@ import msg from './modules/msg';
 
 console.log('CONTENT SCRIPT WORKS!'); // eslint-disable-line no-console
 
-msg.init('ct', handlers.create('ct'));
+msg.init('ct', {
+	getVideos: function(what, done) { 
+		var videos = []
+		document.querySelectorAll('video').forEach(function(k,v){
+			videos.push(k.playbackRate)
+		})
+		done(videos)
+	},
+	changeSpeedVideo: function (what, videoI, speed, done) {
+		console.log('changing video rate to speed',what, videoI, speed)
+		console.log('videos', $('video')); // eslint-disable-line no-console
 
-console.log('jQuery version:', $().jquery); // eslint-disable-line no-console
+		$('video')[videoI].playbackRate = speed
+		done('yay !! speed setted',speed)
+	}
+});
+
+console.log('jQuery version2:', $().jquery); // eslint-disable-line no-console

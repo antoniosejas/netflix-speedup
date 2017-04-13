@@ -3,6 +3,8 @@ import msg from './modules/msg';
 import form from './modules/form';
 import runner from './modules/runner';
 
+import $ from 'jquery';
+
 // here we use SHARED message handlers, so all the contexts support the same
 // commands. but this is NOT typical messaging system usage, since you usually
 // want each context to handle different commands. for this you don't need
@@ -16,4 +18,20 @@ import runner from './modules/runner';
 
 console.log('POPUP SCRIPT WORKS!'); // eslint-disable-line no-console
 
-form.init(runner.go.bind(runner, msg.init('popup', handlers.create('popup'))));
+// form.init(runner.go.bind(runner, msg.init('popup', handlers.create('popup'))));
+var msgPopup = msg.init('popup', {
+  // ping: function(done) { done('pong'); }
+})
+
+
+var initFormCallBack = (speedI,speed) => {
+		msgPopup.cmd(['ct'], 'changeSpeedVideo', 'I want you change the video I to speed', speedI, speed, (ok) =>
+		{
+		  console.log('changeSpeedVideo ok',ok)
+		});
+	}
+msgPopup.cmd(['ct'], 'getVideos', 'I want array of videos and current speed !', (arraySpeeds) =>
+{
+  form.init(initFormCallBack,arraySpeeds)
+});
+

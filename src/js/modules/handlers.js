@@ -5,6 +5,8 @@
 // `echo` function doesn't return anything, just logs the input parameter
 // `what`.
 
+import $ from 'jquery';
+
 function log(...args) {
   console.log(...args); // eslint-disable-line no-console
 }
@@ -30,6 +32,16 @@ handlers.create = context => ({
     log(`---> ${context}::echo("${what}") invoked`);
     log('<--- (no return value)');
     done();
+  },
+  getVideos: (what,done) => {
+    log(`--->${context}::getVideos(${what}) invoked`);
+    var r = []
+    if ('ct' === context) {
+      r = $('video')
+    }
+    log(`<--- returns: ${r}`);
+    console.log('<--- returns:',r);
+    done(r)
   }
 });
 
